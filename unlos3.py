@@ -24,8 +24,8 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=['u3'])
 async def find(message: types.Message):
     pos_counter = 0
-    await bot.send_message(my_chat, f'Я Получил задание работать с {message.text.split()[1]}\nБаланс стим: {my_balance}\nПроцент прибыли, который вы хотите получить {my_prc}')
-    for item_name in GIN(message.text.split()[1]):
+    await bot.send_message(my_chat, f'Я Получил задание работать с {message.text.split()[1::]}\nБаланс стим: {my_balance}\nПроцент прибыли, который вы хотите получить {my_prc}')
+    for item_name in GIN(arr=message.text.split()[1::]):
 
         if not 'StatTrak' in item_name:
             try:

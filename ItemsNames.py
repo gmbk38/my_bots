@@ -1,9 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-def getItemsNames(*args):
+def getItemsNames(arr=False,*args):
 
     items_names = []
+
+    if arr:
+        args = arr
 
     for items_type in args:
 
