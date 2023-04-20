@@ -11,7 +11,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 API_TOKEN = '6220870342:AAHwU9QScKNbsDRIpfFvVS1ojK11AOL-38g'
-my_chat = -949578756
+my_chat = -908520292
 
 my_prc = 0.05
 my_balance = 333
@@ -122,7 +122,8 @@ async def find(message: types.Message):
 
                 # print('==================================================\n')
             except Exception as ex:
-                print('Что-то пошло не так, но так и задумано')
+                # print('Что-то пошло не так, но так и задумано')
+                await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
         time.sleep(10)
         # 10

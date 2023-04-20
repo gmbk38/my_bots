@@ -122,7 +122,8 @@ async def find(message: types.Message):
 
                 # print('==================================================\n')
             except Exception as ex:
-                print('Что-то пошло не так, но так и задумано')
+                # print('Что-то пошло не так, но так и задумано')
+                await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
         time.sleep(10)
         # 10
