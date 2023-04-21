@@ -132,8 +132,8 @@ async def find(message: types.Message):
                 pos_counter += 1
                 if (pos_counter > 15):
                     pos_counter = 0
-                    pos_errors = 0
                     await bot.send_message(my_chat, f'Я успешно проверил 15 позиций {item_name.split("|")[0]}, Допустимых ошибок {pos_errors}')
+                    pos_errors = 0
 
 
                 # print('==================================================\n')
