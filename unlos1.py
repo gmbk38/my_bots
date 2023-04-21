@@ -118,7 +118,7 @@ async def find(message: types.Message):
                     if (prices[0] < my_balance):
                         print('Покупать')
                         print(_url)
-                        webbrowser.open_new(_url)
+                        # webbrowser.open_new(_url)
                         await bot.send_message(my_chat, f'@gameboychik \n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
                         await bot.send_message(my_chat, f'{_url}')
                     else:
@@ -144,7 +144,7 @@ async def find(message: types.Message):
                 pass
         time.sleep(10)
         # 10
-    time.sleep(10)
+    time.sleep(15)
 
 @dp.message_handler(commands=['findchat'])
 async def botAnswer(message: types.Message):
