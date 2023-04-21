@@ -142,7 +142,7 @@ async def find(message: types.Message):
                 pos_errors += 1
                 # await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
-        time.sleep(15)
+        time.sleep(10)
         # 10
     time.sleep(10)
 
