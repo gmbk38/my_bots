@@ -148,7 +148,7 @@ async def find(message: types.Message):
                 pass
         time.sleep(10)
         # 10
-    # time.sleep(10)
+    time.sleep(10)
 
 @dp.message_handler(commands=['findchat'])
 async def botAnswer(message: types.Message):
