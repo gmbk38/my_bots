@@ -2,8 +2,10 @@ import json
 import requests
 import pandas as pd
 import numpy as np
-import webbrowser
+from urllib.parse import quote
+from urllib.parse import unquote
 import time
+import random
 from ItemsNames import getItemsNames as GIN
 from bs4 import BeautifulSoup
 import logging
@@ -21,6 +23,15 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+# _proxies = [
+#     {"http": "http://45.7.177.177:39867",
+#     "https": "http://45.7.177.177:39867"},
+#     {"http": "http://46.174.234.32:5678",
+#     "https": "http://46.174.234.32:5678"},
+#     {"http": "http://49.75.17.108:44844",
+#     "https": "http://49.75.17.108:44844"},  
+# ]
+
 @dp.message_handler(commands=['data'])
 async def getdata(message: types.Message):
 
@@ -37,7 +48,7 @@ async def getdata(message: types.Message):
 async def find(message: types.Message):
     pos_counter = 0
     pos_errors = 0
-    await bot.send_message(my_chat, f'Я Получил задание работать с {message.text.split()[1::]}\nБаланс стим: {my_balance}\nПроцент прибыли, который вы хотите получить {my_prc}')
+    await bot.send_message(my_chat, f'Я получил задание работать с {message.text.split()[1::]}\nБаланс стим: {my_balance}\nПроцент прибыли, который вы хотите получить {my_prc}')
     for item_name in GIN(arr=message.text.split()[1::]):
 
         if not 'StatTrak' in item_name:
@@ -73,7 +84,7 @@ async def find(message: types.Message):
                     'Referer': f'https://steamcommunity.com/market/listings/730/{item_name}',
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.34',
 
-                    'If-None-Match': '"i8iZ57/JRNLQH3mKeQ6DoXjuQQw="'
+                    # 'If-None-Match': '"i8iZ57/JRNLQH3mKeQ6DoXjuQQw="'
                 }
 
                 subresponse = requests.get(suburl, headers=subheaders)
@@ -115,17 +126,9 @@ async def find(message: types.Message):
                 max_to_buy = mean_price*(0.85-my_prc)
 
                 if(prices[0] < max_to_buy):
-                    if (prices[0] < my_balance):
-                        print('Покупать')
-                        print(_url)
-                        # webbrowser.open_new(_url)
-                        await bot.send_message(my_chat, f'@gameboychik \n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
-                        await bot.send_message(my_chat, f'{_url}')
-                    else:
-                        # print('Покупать но НЕДОСТАТОЧНО СРЕДСТВ')
-                        await bot.send_message(my_chat, f'@gameboychik НЕДОСТАТОЧНО СРЕДСТВ\n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
-                        await bot.send_message(my_chat, f'{_url}')
-                        # print(_url)
+                    await bot.send_message(my_chat, f'@gameboychik\n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
+                    await bot.send_message(my_chat, f'{quote(_url, safe=":/")}')
+                    # print(_url)
                 else:
                     # print('Не покупать')
                     pass   
@@ -140,11 +143,12 @@ async def find(message: types.Message):
             except Exception as ex:
                 # print('Что-то пошло не так, но так и задумано')
                 pos_errors += 1
+                print(ex)
                 # await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
         time.sleep(10)
         # 10
-    time.sleep(10)
+    # time.sleep(10)
 
 @dp.message_handler(commands=['findchat'])
 async def botAnswer(message: types.Message):
