@@ -13,17 +13,30 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 API_TOKEN = '6048258067:AAEC3vq-Q7sAtYcsB6KqW9xna3tgpAuYnw8'
 my_chat = -908520292
 
-my_prc = 0.05
-my_balance = 333
+my_prc = 0.00
+my_balance = 0
 
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+@dp.message_handler(commands=['data'])
+async def getdata(message: types.Message):
+
+    global my_prc
+    global my_balance
+
+    my_prc = float(message.text.split()[2])
+    my_balance = int(message.text.split()[1])
+
+    await bot.send_message(my_chat, f'Баланс: {my_balance}\nПроцент выгоды: {my_prc}')
+
+
 @dp.message_handler(commands=['u1'])
 async def find(message: types.Message):
     pos_counter = 0
+    pos_errors = 0
     await bot.send_message(my_chat, f'Я Получил задание работать с {message.text.split()[1::]}\nБаланс стим: {my_balance}\nПроцент прибыли, который вы хотите получить {my_prc}')
     for item_name in GIN(arr=message.text.split()[1::]):
 
@@ -106,10 +119,12 @@ async def find(message: types.Message):
                         print('Покупать')
                         print(_url)
                         webbrowser.open_new(_url)
-                        await bot.send_message(my_chat, f'@gameboychik \n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}\n\n{_url}')
+                        await bot.send_message(my_chat, f'@gameboychik \n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
+                        await bot.send_message(my_chat, f'{_url}')
                     else:
                         # print('Покупать но НЕДОСТАТОЧНО СРЕДСТВ')
-                        await bot.send_message(my_chat, f'@gameboychik Покупать но НЕДОСТАТОЧНО СРЕДСТВ\n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}\n\n{_url}')
+                        await bot.send_message(my_chat, f'@gameboychik НЕДОСТАТОЧНО СРЕДСТВ\n{item_name}\nМинимальная цена: {prices[0]}\nСредняя цена: {round(mean_price, 2)}\nМаксимальная цена для покупки {round(max_to_buy, 2)} с установленной выгодой {my_prc}')
+                        await bot.send_message(my_chat, f'{_url}')
                         # print(_url)
                 else:
                     # print('Не покупать')
@@ -117,19 +132,21 @@ async def find(message: types.Message):
                 pos_counter += 1
                 if (pos_counter > 15):
                     pos_counter = 0
-                    await bot.send_message(my_chat, f'Я успешно проверил 15 позиций {message.text.split()[1]}')
+                    pos_errors = 0
+                    await bot.send_message(my_chat, f'Я успешно проверил 15 позиций {item_name.split("|")[0]}, Допустимых ошибок {pos_errors}')
 
 
                 # print('==================================================\n')
             except Exception as ex:
                 # print('Что-то пошло не так, но так и задумано')
-                await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
+                pos_errors += 1
+                # await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
         time.sleep(10)
         # 10
     time.sleep(10)
 
-@dp.message_handler(content_types=['text'])
+@dp.message_handler(commands=['findchat'])
 async def botAnswer(message: types.Message):
     print(message.chat.id)
 

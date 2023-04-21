@@ -10,7 +10,7 @@ def getItemsNames(arr=False,*args):
 
     for items_type in args:
 
-        url = f'https://wiki.cs.money/weapons/{items_type.lower()}'
+        url = f'https://wiki.cs.money/weapons/{items_type.lower().replace(":","-")}'
 
         headers = {
             'Referer' : 'https://wiki.cs.money/',
@@ -25,8 +25,8 @@ def getItemsNames(arr=False,*args):
             print ('Ошибка получения items name')
 
         soup = BeautifulSoup(response.text, 'html.parser')
-        for el in soup.findAll('div',{'class':'zhqwubnajobxbgkzlnptmjmgwn'})[15::]:
+        for el in soup.findAll('div',{'class':'zhqwubnajobxbgkzlnptmjmgwn'})[5::]:
             for fv in float_values:
-                items_names.append(f'{items_type} | {el.getText()} ({fv})')
+                items_names.append(f'{items_type.replace(":"," ")} | {el.getText()} ({fv})')
 
     return items_names
