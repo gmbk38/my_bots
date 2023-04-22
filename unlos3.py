@@ -70,8 +70,8 @@ async def find(message: types.Message):
 
                 if (_response.status_code != 200):
                     print('Ошибка _url')
-                    await bot.send_message(my_chat, 'Меня забанил стим, сплю 5 минут')
-                    time.sleep(300)
+                    await bot.send_message(my_chat, 'Меня забанил стим, сплю')
+                    time.sleep(random.randint(30, 120))
 
                 _soup = BeautifulSoup(_response.text, 'html.parser')
                 item_id = int(str(_soup).split('Market_LoadOrderSpread')[1].split(')')[0].replace(' ','').replace('(',''))
@@ -146,9 +146,9 @@ async def find(message: types.Message):
                 print(ex)
                 # await bot.send_message(my_chat, f'Что-то пошло не так, но так и задумано')
                 pass
-        time.sleep(10)
+            time.sleep(10)
         # 10
-    time.sleep(10)
+        time.sleep(10)
 
 @dp.message_handler(commands=['findchat'])
 async def botAnswer(message: types.Message):
