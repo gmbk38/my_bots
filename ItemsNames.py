@@ -25,7 +25,7 @@ def getItemsNames(arr=False,*args):
             print ('Ошибка получения items name')
 
         soup = BeautifulSoup(response.text, 'html.parser')
-        for el in soup.findAll('div',{'class':'zhqwubnajobxbgkzlnptmjmgwn'})[10::]:
+        for el in soup.findAll('div',{'class':'zhqwubnajobxbgkzlnptmjmgwn'})[15::]:
             for fv in float_values:
                 items_names.append(f'{items_type.replace(":"," ")} | {el.getText()} ({fv})')
 
