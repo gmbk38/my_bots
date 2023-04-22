@@ -8,7 +8,7 @@ encoded_url = quote(url, safe=':/')
 
 print(encoded_url)
 print('https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Night%20%28Well-Worn%29')
-print(unquote(encoded_url))
+print(unquote('https://steamcommunity.com/market/listings/730/Five-SeveN%20%7C%20Case%20Hardened%20%28Battle-Scarred%29'))
 
 # proxies = [
 #     {"http": "http://203.22.223.211:80",

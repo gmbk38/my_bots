@@ -44,7 +44,7 @@ async def getdata(message: types.Message):
     await bot.send_message(my_chat, f'Баланс: {my_balance}\nПроцент выгоды: {my_prc}')
 
 
-@dp.message_handler(commands=['u2'])
+@dp.message_handler(commands=['u3'])
 async def find(message: types.Message):
     pos_counter = 0
     pos_errors = 0
